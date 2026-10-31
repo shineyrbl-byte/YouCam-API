@@ -167,7 +167,7 @@ export default function CasePage() {
               {latestYouCam && (
                 <section className="card p-5">
                   <h3 className="mb-1 font-serif text-xl font-bold">Forensic photos</h3>
-                  <p className="mb-4 text-sm text-ink-2">Where YouCam detected each concern on your latest scan (links expire after 24h).</p>
+                  <p className="mb-4 text-sm text-ink-2">Where YouCam detected each concern on your latest scan (YouCam keeps these for 2 hours).</p>
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                     {Object.entries(latestYouCam.maskUrls!).map(([k, url]) => (
                       <figure key={k}>
