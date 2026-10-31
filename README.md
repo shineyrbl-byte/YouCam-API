@@ -2,7 +2,9 @@
 
 **Is your skincare actually working? Put it on trial.**
 
-**Live demo: https://you-cam-api.vercel.app/**
+**Live demo: https://you-cam-api.vercel.app/** · **Demo video: https://youtu.be/p6zLUIZvGU0**
+
+[![Watch the demo](https://img.youtube.com/vi/p6zLUIZvGU0/hqdefault.jpg)](https://youtu.be/p6zLUIZvGU0)
 
 People spend a lot on skincare and almost never find out whether a product did anything. Results are slow, mirrors are biased, and a bad night's sleep looks the same as a bad serum. So people keep paying for products that don't work, or drop ones that do because they gave up after a week.
 
