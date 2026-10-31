@@ -6,7 +6,7 @@ import { useState } from "react";
 import { EvidenceCapture } from "@/components/EvidenceCapture";
 import { DeltaBars, RulingPanel } from "@/components/Ruling";
 import { ScoreChart } from "@/components/ScoreChart";
-import { VERDICT_META, daysAgo, formatDate, useHydrated } from "@/components/ui";
+import { VERDICT_META, daysAgo, formatDate, useDemoMode, useHydrated } from "@/components/ui";
 import { CONCERN_INFO } from "@/lib/claims";
 import { deleteCase, saveCase, useCase } from "@/lib/store";
 import type { Analysis, Case, Evidence, Ruling } from "@/lib/types";
@@ -21,6 +21,7 @@ export default function CasePage() {
   const [deliberating, setDeliberating] = useState(false);
   const [justRuled, setJustRuled] = useState(false);
   const [error, setError] = useState("");
+  const demo = useDemoMode();
 
   if (!hydrated) return null;
   if (!c) {
@@ -36,6 +37,13 @@ export default function CasePage() {
   const live = analyzeCase(c);
   const stale = !c.analysis || c.analysis.scanCount !== evidence.length;
   const latestYouCam = [...evidence].reverse().find((e) => e.source === "youcam" && e.maskUrls && Object.keys(e.maskUrls).length);
+
+  // Demo mode: shift every scan (and the case start) back in time, as if days had passed.
+  // Scores are untouched; only the dates move. Used to record a demo in one sitting.
+  function fastForward(days: number) {
+    const shift = (iso: string) => new Date(new Date(iso).getTime() - days * 86_400_000).toISOString();
+    saveCase({ ...c!, startedAt: shift(c!.startedAt), evidence: c!.evidence.map((e) => ({ ...e, takenAt: shift(e.takenAt) })) });
+  }
 
   function addEvidence(e: Evidence) {
     saveCase({ ...c!, evidence: [...c!.evidence, e] });
@@ -221,6 +229,17 @@ export default function CasePage() {
                 })}
               </ol>
               <button onClick={() => setCapturing(true)} className="btn btn-ghost mt-5 w-full text-sm">+ Add evidence</button>
+              {demo && (
+                <div className="mt-3 rounded-xl border border-dashed border-continued/50 p-3 text-xs">
+                  <p className="mb-2 font-semibold text-continued">⏩ Demo time travel</p>
+                  <div className="flex gap-2">
+                    {[3, 7].map((d) => (
+                      <button key={d} onClick={() => fastForward(d)} className="btn btn-ghost flex-1 !px-2 !py-1.5 text-xs">+{d} days</button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-muted">Moves existing scans back in time. Scores stay real.</p>
+                </div>
+              )}
               <button
                 onClick={() => {
                   if (confirm(`Dismiss the case against ${c.productName}? This deletes its scans.`)) {

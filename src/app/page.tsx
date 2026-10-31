@@ -4,11 +4,12 @@ import Link from "next/link";
 import { CONCERN_INFO } from "@/lib/claims";
 import { restoreSamples, useCases } from "@/lib/store";
 import type { Case } from "@/lib/types";
-import { VERDICT_META, VerdictStamp, daysAgo, useHydrated } from "@/components/ui";
+import { VERDICT_META, VerdictStamp, daysAgo, useDemoMode, useHydrated } from "@/components/ui";
 
 export default function Docket() {
   const cases = useCases();
   const hydrated = useHydrated();
+  const demo = useDemoMode();
 
   const jailed = cases.filter((c) => c.analysis?.verdict === "guilty");
   const acquitted = cases.filter((c) => c.analysis?.verdict === "acquitted");
@@ -17,6 +18,11 @@ export default function Docket() {
 
   return (
     <div className="space-y-12">
+      {demo && (
+        <p className="rounded-xl border border-dashed border-continued/50 px-4 py-2 text-center text-sm text-continued">
+          ⏩ Demo mode is on: case pages show &ldquo;time travel&rdquo; buttons. Turn it off with <code>?demo=0</code>.
+        </p>
+      )}
       <section className="grid items-center gap-8 md:grid-cols-[1.3fr_1fr]">
         <div className="fade-up">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-mahogany">The Skincare Court is in session</p>

@@ -32,3 +32,14 @@ export function daysAgo(iso: string) {
 export function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
+
+// Demo mode is switched on with ?demo=1 (and off with ?demo=0); it sticks for the browser session.
+function readDemo() {
+  const q = new URLSearchParams(window.location.search).get("demo");
+  if (q === "1") sessionStorage.setItem("pot.demo", "1");
+  if (q === "0") sessionStorage.removeItem("pot.demo");
+  return sessionStorage.getItem("pot.demo") === "1";
+}
+export function useDemoMode() {
+  return useSyncExternalStore(noop, readDemo, () => false);
+}
