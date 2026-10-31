@@ -60,8 +60,8 @@ export function RulingPanel({ analysis, ruling, animate }: { analysis: Analysis;
           <ConfidenceMeter value={analysis.confidence} />
         </div>
         <p className="text-xs text-muted">
-          {ruling.author === "claude" ? "Ruling written by Judge Dewey Glow (Claude)." : "Ruling read by the court clerk (template)."} The verdict
-          itself comes from the scan numbers, not the AI.
+          {ruling.author === "claude" ? "Ruling written by Judge Dewey Glow (Claude). " : ""}The verdict comes straight from your YouCam scan
+          numbers, compared against the product&apos;s own claims.
         </p>
       </div>
     </div>

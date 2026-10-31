@@ -52,8 +52,11 @@ function caseBrief(c: Case, a: Analysis) {
   );
 }
 
+// After a billing or auth failure, skip the LLM for a while instead of failing on every verdict.
+let disabledUntil = 0;
+
 export async function deliverRuling(c: Case, a: Analysis): Promise<Ruling> {
-  if (!process.env.ANTHROPIC_API_KEY) return clerkRuling(c, a);
+  if (!process.env.ANTHROPIC_API_KEY || Date.now() < disabledUntil) return clerkRuling(c, a);
 
   try {
     const client = new Anthropic();
@@ -73,7 +76,10 @@ export async function deliverRuling(c: Case, a: Analysis): Promise<Ruling> {
     const parsed = JSON.parse(text.text) as Omit<Ruling, "author">;
     return { ...parsed, author: "claude" };
   } catch (err) {
-    console.error("Judge unavailable, the clerk will read the ruling instead:", err);
+    if (err instanceof Anthropic.APIError && (err.status === 400 || err.status === 401 || err.status === 403)) {
+      disabledUntil = Date.now() + 30 * 60_000;
+    }
+    console.error("Judge unavailable, the clerk will read the ruling instead:", err instanceof Error ? err.message : err);
     return clerkRuling(c, a);
   }
 }

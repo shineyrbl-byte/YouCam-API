@@ -9,7 +9,7 @@ const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["lati
 export const metadata: Metadata = {
   title: "Product on Trial: is your skincare actually working?",
   description:
-    "Put your skincare on trial. YouCam Skin AI scans are the evidence, and an AI judge rules: acquitted, guilty, or case continued.",
+    "Put your skincare on trial. YouCam Skin AI scans are the evidence, and the court rules: acquitted, guilty, or case continued.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </header>
         <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">{children}</main>
         <footer className="border-t border-line py-6 text-center text-xs text-muted">
-          Evidence analyzed by YouCam Skin AI · Rulings written by an AI judge · Not medical advice
+          Evidence analyzed by YouCam Skin AI · Not medical advice
         </footer>
       </body>
     </html>

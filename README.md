@@ -2,6 +2,8 @@
 
 **Is your skincare actually working? Put it on trial.**
 
+**Live demo: https://you-cam-api.vercel.app/**
+
 People spend a lot on skincare and almost never find out whether a product did anything. Results are slow, mirrors are biased, and a bad night's sleep looks the same as a bad serum. So people keep paying for products that don't work, or drop ones that do because they gave up after a week.
 
 Product on Trial turns that question into a court case:
@@ -13,7 +15,7 @@ Product on Trial turns that question into a court case:
    - ⛓️ **Guilty**: it's irritating your skin, or it had enough time and did nothing. Off to product jail.
    - ⏳ **Case continued**: not enough evidence yet. The court sets the next hearing date.
 
-An AI judge (Claude) delivers the ruling in a playful courtroom voice, citing the exact numbers, with concrete next steps.
+The ruling is delivered in a playful courtroom voice, citing your exact numbers, with concrete next steps tailored to the concern (e.g. barrier-repair advice when moisture drops, a patch-test when redness rises).
 
 ![Docket](docs/screenshots/home.png)
 
@@ -23,7 +25,7 @@ An AI judge (Claude) delivers the ruling in a playful courtroom voice, citing th
 - **Side effects can't hide.** All 8 concerns are scanned every time. If redness or acne gets worse, that's an *Aggravated Irritation* charge, even when the product "worked" on what it claimed.
 - **Witness statements.** At each check-in you can log confounders (bad sleep, stress, period, started another product, weather). These show up as *objections* and lower the court's confidence, so the product isn't blamed (or credited) unfairly.
 - **Noise-aware.** Lighting and angle make scores wobble a few points, so changes within ±5 are treated as noise. With 3+ scans the latest two are averaged so one bad photo can't decide a case.
-- **The AI explains; the numbers decide.** The verdict comes from a deterministic engine (`src/lib/verdict.ts`). The LLM only writes the ruling and isn't allowed to change it. That keeps verdicts consistent and trustworthy.
+- **The numbers decide.** The verdict comes from a deterministic engine (`src/lib/verdict.ts`), so it's consistent and explainable. Rulings are written by a rule-based "court clerk" (`src/lib/clerk.ts`). Optionally, an LLM judge (Claude) can rewrite them in its own words, but it can never change the verdict.
 - **Private by default.** Cases and photo thumbnails stay in your browser (localStorage). Photos are sent only to YouCam for the scan; the judge sees scores and notes, never photos.
 
 | Guilty | Acquitted |
@@ -54,7 +56,7 @@ npm run dev                  # http://localhost:3000
 | Variable | What it does |
 |---|---|
 | `YOUCAM_API_KEY` | YouCam API key ([get one](https://yce.makeupar.com/api-console/en/api-keys/)). Without it, scans are **simulated** so you can still try the whole flow. |
-| `ANTHROPIC_API_KEY` | Enables the Claude judge. Without it, a template "court clerk" reads the ruling. |
+| `ANTHROPIC_API_KEY` | Optional. Lets Claude write the ruling text. Without it, the rule-based court clerk writes it (the verdict is identical either way). |
 | `DEMO_MODE=1` | Forces simulated scans even with a YouCam key (saves units while developing). |
 | `SCANS_PER_IP_PER_DAY` / `SCANS_PER_DAY` | Soft daily caps on real scans for a public deployment (defaults 8 / 40). Over the cap, scans are simulated and the user is told. |
 
@@ -62,7 +64,7 @@ The app opens with three sample cases (one of each verdict) so you can explore r
 
 ## Tech
 
-Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · YouCam AI API · Claude (`claude-opus-5-5`, structured JSON output) · no database (localStorage).
+Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · YouCam AI API · optional Claude for ruling text · no database (localStorage).
 
 ```
 src/lib/verdict.ts     verdict engine: deltas, trends, charges, objections, confidence

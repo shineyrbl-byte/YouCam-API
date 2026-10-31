@@ -36,7 +36,7 @@ export function sortEvidence(evidence: Evidence[]) {
 
 /**
  * Turns a pile of skin scans into a verdict. Deterministic on purpose: the verdict is
- * decided by the numbers, and the AI judge only explains it.
+ * decided by the numbers; the ruling text only explains it.
  */
 export function analyzeCase(c: Pick<Case, "claims" | "evidence">): Analysis {
   const ev = sortEvidence(c.evidence);

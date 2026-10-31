@@ -26,7 +26,7 @@ export default function Docket() {
           </h1>
           <p className="mt-5 max-w-xl text-lg text-ink-2">
             Every product promises results. Few people can tell if they got them. Take a quick skin scan when you start a
-            product, check in every few days, and an AI judge rules on the evidence: keep it, bin it, or give it more time.
+            product, check in every few days, and the court rules on the evidence: keep it, bin it, or give it more time.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link href="/case/new" className="btn btn-primary text-base">🔨 File a case</Link>
