@@ -134,6 +134,23 @@ export default function CasePage() {
 
           <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
             <div className="space-y-6">
+              {evidence.length < 2 && (
+                <section className="card p-6">
+                  <h3 className="font-serif text-xl font-bold">Baseline recorded</h3>
+                  <p className="mt-1 text-sm text-ink-2">These are your starting scores. Every check-in is compared against them.</p>
+                  <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    {(Object.keys(CONCERN_INFO) as (keyof typeof CONCERN_INFO)[]).map((k) => (
+                      <div key={k} className={`rounded-xl p-3 ${c.claims.includes(k) ? "bg-ink text-paper-2" : "bg-paper"}`}>
+                        <p className="text-xs opacity-75">{CONCERN_INFO[k].emoji} {CONCERN_INFO[k].label}{c.claims.includes(k) && " ★"}</p>
+                        <p className="font-serif text-2xl font-black tabular-nums">{evidence[0].scores[k]}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-4 text-sm text-ink-2">
+                    ★ = what {c.productName} claims to fix. Next check-in: in about 3-5 days, same spot, same light.
+                  </p>
+                </section>
+              )}
               {evidence.length >= 2 && (
                 <section className="card p-5">
                   <h3 className="mb-3 font-serif text-xl font-bold">Exhibit A · Scores over time</h3>

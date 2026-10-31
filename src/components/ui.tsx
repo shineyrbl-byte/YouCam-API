@@ -11,10 +11,10 @@ export const VERDICT_META: Record<VerdictKind, { label: string; color: string; b
 
 export function VerdictStamp({ kind, size = "md", animate = false }: { kind: VerdictKind; size?: "sm" | "md" | "lg"; animate?: boolean }) {
   const m = VERDICT_META[kind];
-  const cls = size === "lg" ? "text-4xl sm:text-5xl" : size === "sm" ? "text-xs" : "text-lg";
+  const cls = size === "lg" ? "text-3xl sm:text-4xl" : size === "sm" ? "text-xs" : "text-lg";
   return (
     <span className={`stamp ${cls} ${animate ? "stamp-in" : ""}`} style={{ color: m.color }}>
-      {m.label}
+      {size === "lg" && kind === "continued" ? "Continued" : m.label}
     </span>
   );
 }

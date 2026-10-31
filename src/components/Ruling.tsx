@@ -10,12 +10,12 @@ export function RulingPanel({ analysis, ruling, animate }: { analysis: Analysis;
     <div className="card relative overflow-hidden" style={{ borderColor: meta.color }}>
       <div className="h-2" style={{ background: meta.color }} />
       <div className="space-y-5 p-6">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="max-w-xl">
+        <div className="flex flex-col-reverse items-start justify-between gap-4 sm:flex-row">
+          <div className="min-w-0 max-w-xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">The court rules</p>
             <h2 className="mt-1 font-serif text-3xl font-black leading-tight">{ruling.headline}</h2>
           </div>
-          <VerdictStamp kind={analysis.verdict} size="lg" animate={animate} />
+          <div className="shrink-0 sm:pt-3"><VerdictStamp kind={analysis.verdict} size="lg" animate={animate} /></div>
         </div>
 
         <p className="text-lg leading-relaxed text-ink-2">{ruling.ruling}</p>
