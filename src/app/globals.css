@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --paper: #f6f1e7;
+  --paper-2: #fffdf8;
+  --ink: #1d1a16;
+  --ink-2: #5a524a;
+  --muted: #8a8177;
+  --line: #e4dccd;
+  --mahogany: #6b2d1f;
+  --gold: #c08a2b;
+  --acquitted: #1f7a3a;
+  --guilty: #b3261e;
+  --continued: #a36a00;
+  /* chart roles (reference data-viz palette, light mode) */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --div-up: #2a78d6;
+  --div-down: #e34948;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-mahogany: var(--mahogany);
+  --color-gold: var(--gold);
+  --color-acquitted: var(--acquitted);
+  --color-guilty: var(--guilty);
+  --color-continued: var(--continued);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  background-image: radial-gradient(rgba(107, 45, 31, 0.035) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.card {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 1px 0 rgba(29, 26, 22, 0.04), 0 8px 24px -16px rgba(29, 26, 22, 0.25);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.7rem 1.25rem;
+  font-weight: 600;
+  transition: transform 0.12s ease, background 0.15s ease, opacity 0.15s;
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; pointer-events: none; }
+.btn-primary { background: var(--mahogany); color: #fff; }
+.btn-primary:hover { background: #7d3727; }
+.btn-ghost { border: 1px solid var(--line); background: var(--paper-2); color: var(--ink); }
+.btn-ghost:hover { background: #f1eadb; }
+
+.chip {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+  background: var(--paper-2);
+  transition: all 0.12s;
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper-2); border-color: var(--ink); }
+
+.input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--paper-2);
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  outline: none;
+}
+.input:focus { border-color: var(--mahogany); box-shadow: 0 0 0 3px rgba(107, 45, 31, 0.12); }
+
+/* Rubber-stamp verdicts */
+.stamp {
+  display: inline-block;
+  font-family: var(--font-playfair), serif;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 4px double currentColor;
+  border-radius: 10px;
+  padding: 0.2em 0.6em;
+  transform: rotate(-8deg);
+  mix-blend-mode: multiply;
+}
+.stamp-in { animation: stamp-in 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) both; }
+@keyframes stamp-in {
+  0% { transform: scale(2.6) rotate(-18deg); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: scale(1) rotate(-8deg); opacity: 1; }
+}
+
+.gavel-bang { animation: gavel 0.6s ease-in-out 2; transform-origin: 80% 80%; }
+@keyframes gavel {
+  0%, 100% { transform: rotate(0); }
+  40% { transform: rotate(-35deg); }
+  70% { transform: rotate(8deg); }
+}
+
+.jail-bars {
+  background-image: repeating-linear-gradient(90deg, transparent 0 22px, rgba(29, 26, 22, 0.55) 22px 27px);
+  pointer-events: none;
+}
+
+.scan-line {
+  position: absolute;
+  inset-inline: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #4fd1c5, transparent);
+  box-shadow: 0 0 18px 4px rgba(79, 209, 197, 0.6);
+  animation: scan 1.6s ease-in-out infinite alternate;
+}
+@keyframes scan { from { top: 4%; } to { top: 94%; } }
+
+.fade-up { animation: fade-up 0.5s ease both; }
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp-in, .gavel-bang, .scan-line, .fade-up { animation: none; }
 }

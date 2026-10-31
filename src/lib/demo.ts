@@ -1,3 +1,5 @@
+import { clerkRuling } from "./clerk";
+import { analyzeCase } from "./verdict";
 import { CONCERNS, type Case, type Concern, type Confounder, type Evidence, type Scores } from "./types";
 
 // Small seeded RNG so sample data and simulated scans are repeatable.
@@ -57,12 +59,18 @@ const s = (acne: number, redness: number, oiliness: number, pore: number, textur
 
 // A pre-filled docket so a first-time visitor sees every verdict type immediately.
 export function sampleCases(now = Date.now()): Case[] {
+  return rawSamples(now).map((c) => {
+    const analysis = analyzeCase(c);
+    return { ...c, analysis, ruling: clerkRuling(c, analysis) };
+  });
+}
+
+function rawSamples(now: number): Case[] {
   const ago = (d: number) => now - d * 86_400_000;
   return [
     {
       id: "sample-glow",
       productName: "Sunrise C-15 Serum",
-      brand: "Sample",
       category: "Serum",
       claims: ["radiance", "texture"],
       price: 34,
@@ -78,7 +86,6 @@ export function sampleCases(now = Date.now()): Case[] {
     {
       id: "sample-mask",
       productName: "Deep Clean Clay Mask",
-      brand: "Sample",
       category: "Mask",
       claims: ["pore", "oiliness"],
       price: 22,
@@ -94,7 +101,6 @@ export function sampleCases(now = Date.now()): Case[] {
     {
       id: "sample-gel",
       productName: "Cloud Water Gel Cream",
-      brand: "Sample",
       category: "Moisturizer",
       claims: ["moisture", "redness"],
       price: 28,
