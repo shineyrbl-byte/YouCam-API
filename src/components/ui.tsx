@@ -33,13 +33,44 @@ export function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
-// Demo mode is switched on with ?demo=1 and off with ?demo=0; it is remembered in this browser.
+// Demo mode shows "time travel" buttons on case pages, for recording demos.
+// Toggle it from the footer, or with ?demo=1 / ?demo=0. It is remembered in this browser.
+const DEMO_KEY = "pot.demo";
+const demoListeners = new Set<() => void>();
+
 function readDemo() {
   const q = new URLSearchParams(window.location.search).get("demo");
-  if (q === "1") localStorage.setItem("pot.demo", "1");
-  if (q === "0") localStorage.removeItem("pot.demo");
-  return localStorage.getItem("pot.demo") === "1";
+  if (q === "1") localStorage.setItem(DEMO_KEY, "1");
+  if (q === "0") localStorage.removeItem(DEMO_KEY);
+  return localStorage.getItem(DEMO_KEY) === "1";
 }
+
+function subscribeDemo(listener: () => void) {
+  demoListeners.add(listener);
+  return () => demoListeners.delete(listener);
+}
+
+export function setDemoMode(on: boolean) {
+  if (on) localStorage.setItem(DEMO_KEY, "1");
+  else localStorage.removeItem(DEMO_KEY);
+  // Drop ?demo=... from the address so it can't override the toggle.
+  const url = new URL(window.location.href);
+  if (url.searchParams.has("demo")) {
+    url.searchParams.delete("demo");
+    window.history.replaceState(null, "", url);
+  }
+  demoListeners.forEach((l) => l());
+}
+
 export function useDemoMode() {
-  return useSyncExternalStore(noop, readDemo, () => false);
+  return useSyncExternalStore(subscribeDemo, readDemo, () => false);
+}
+
+export function DemoToggle() {
+  const on = useDemoMode();
+  return (
+    <button onClick={() => setDemoMode(!on)} className="underline decoration-dotted underline-offset-2 hover:text-ink">
+      {on ? "⏩ Demo mode: on (turn off)" : "Demo mode"}
+    </button>
+  );
 }

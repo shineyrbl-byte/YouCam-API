@@ -20,7 +20,7 @@ export default function Docket() {
     <div className="space-y-12">
       {demo && (
         <p className="rounded-xl border border-dashed border-continued/50 px-4 py-2 text-center text-sm text-continued">
-          ⏩ Demo mode is on: case pages show &ldquo;time travel&rdquo; buttons. Turn it off with <code>?demo=0</code>.
+          ⏩ Demo mode is on: case pages show &ldquo;time travel&rdquo; buttons. Turn it off from the link at the bottom of the page.
         </p>
       )}
       <section className="grid items-center gap-8 md:grid-cols-[1.3fr_1fr]">

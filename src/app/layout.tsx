@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import Link from "next/link";
+import { DemoToggle } from "@/components/ui";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -30,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </header>
         <main className="mx-auto w-full max-w-6xl flex-1 px-5 py-8">{children}</main>
         <footer className="border-t border-line py-6 text-center text-xs text-muted">
-          Evidence analyzed by YouCam Skin AI · Not medical advice
+          Evidence analyzed by YouCam Skin AI · Not medical advice · <DemoToggle />
         </footer>
       </body>
     </html>
