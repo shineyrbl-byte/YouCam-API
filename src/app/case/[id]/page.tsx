@@ -87,6 +87,13 @@ export default function CasePage() {
         </button>
       </div>
 
+      {evidence.at(-1)?.limited && (
+        <p className="rounded-xl border border-continued/40 bg-continued/10 px-4 py-3 text-sm">
+          ⏳ This public demo has hit today&apos;s limit of real YouCam scans, so your latest scan was <b>simulated</b>. Everything
+          else works the same. To run unlimited real scans, run the app locally with your own YouCam key (see the README).
+        </p>
+      )}
+
       {evidence.length === 0 ? (
         <div className="card p-10 text-center">
           <p className="text-5xl">📸</p>

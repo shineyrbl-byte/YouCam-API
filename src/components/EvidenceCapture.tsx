@@ -89,6 +89,7 @@ export function EvidenceCapture({ c, onClose, onAdded }: { c: Case; onClose: () 
         scores: data.scores,
         maskUrls: data.maskUrls,
         source: data.source,
+        limited: data.limited || undefined,
         thumbnail: p.thumbnail,
         confounders,
         note: note.trim() || undefined,

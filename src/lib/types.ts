@@ -34,6 +34,7 @@ export interface Evidence {
   thumbnail?: string; // small data URL, kept locally only
   maskUrls?: Partial<Record<Concern, string>>;
   source: "youcam" | "simulated";
+  limited?: boolean; // simulated because the public demo hit its daily real-scan limit
   confounders: Confounder[];
   note?: string;
 }

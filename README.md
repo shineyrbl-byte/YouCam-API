@@ -56,6 +56,7 @@ npm run dev                  # http://localhost:3000
 | `YOUCAM_API_KEY` | YouCam API key ([get one](https://yce.makeupar.com/api-console/en/api-keys/)). Without it, scans are **simulated** so you can still try the whole flow. |
 | `ANTHROPIC_API_KEY` | Enables the Claude judge. Without it, a template "court clerk" reads the ruling. |
 | `DEMO_MODE=1` | Forces simulated scans even with a YouCam key (saves units while developing). |
+| `SCANS_PER_IP_PER_DAY` / `SCANS_PER_DAY` | Soft daily caps on real scans for a public deployment (defaults 8 / 40). Over the cap, scans are simulated and the user is told. |
 
 The app opens with three sample cases (one of each verdict) so you can explore right away. You can dismiss them and restore them from the docket.
 
